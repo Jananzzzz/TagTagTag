@@ -44,3 +44,6 @@ $ mod tag "your object number"
 ## Some hints
 - A tag can correspond to more than one object
 - An object will be deleted if and only if all of its tags have been removed
+
+## More features
+- case insensitive commands
