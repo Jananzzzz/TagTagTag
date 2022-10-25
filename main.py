@@ -2,7 +2,7 @@ import json
 import re
 
 # function to add to JSON
-def write_json(tag, content, filename='person.json'):
+def write_json(tag, content, filename='data.json'):
     with open(filename,'r+') as file:       # r+ : read and write the file
           # First we load existing data into a dict.
         file_data = json.load(file)
@@ -14,7 +14,7 @@ def write_json(tag, content, filename='person.json'):
         json.dump(file_data, file, indent = 4)
 
 # function to remove/ write to json
-def remove_json(tag, filename='person.json'):
+def remove_json(tag, filename='data.json'):
     with open(filename,'r+') as file:       # r+ : read and write the file
           # First we load existing data into a dict.
         file_data = json.load(file)
@@ -23,7 +23,7 @@ def remove_json(tag, filename='person.json'):
             if i == tag:
                 del file_data[i]
                 break
-        open('person.json', 'w').close()
+        open('data.json', 'w').close()
         # Sets file's current position at offset.
         file.seek(0)
         # convert back to json.
@@ -33,7 +33,7 @@ while True:
     instruction = input("TagTagTag: ")
 
     # open read mode for later use:
-    with open('person.json', 'r') as f0:
+    with open('data.json', 'r') as f0:
         data0 = json.load(f0)
     
     # simple tag search for objects
@@ -52,7 +52,7 @@ while True:
 
     # show all objects
     elif instruction == "all":
-        with open('person.json', 'r') as f:
+        with open('data.json', 'r') as f:
             data = json.load(f)
             for i in data:
                 print(i, "|", data[i])
