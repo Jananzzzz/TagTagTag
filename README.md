@@ -8,29 +8,35 @@
 To be simple, the form of the system is based on **terminal**. 
 
 ## Basic commands
+**Show all the commands for help:**
+```
+$ help
+```
+**Exit the program:**
+```
+$ exit()
+```
 **Return objects with Tag "yourtag":**
 ```
-$ tag "your tag"
+$ "your tag"
+```
+Add a `-all` to show all the objects with the prefix "your tag":
+```
+$ "your tag" -all
 ```
 *This command will return all the objects with the tag "yourtag".*
 
 **Add a Tag:**
 ```
-$ addtag "yourtag" "your object"
+$ # "your tag"
 ```
- *This command will add a tag with your object.*
+ *This command will add open an input line for your to input the correspoonding objects.*
 
 **Remove a Tag:**
 ```
-$ removetag "yourtag" "your object"
+$ remove # "your tag"
 ```
-*This command will remove the tag of the object (Or say it removes the item under this tag).*
-*Though it is a little bit difficult to type the object of a tag(the object may as long as a paragraph), you can first use the 'tag' command to retrieve the object of a tag.*
-
-**Show all the tags under the same object:**
-```
-$ showtag "your object"
-```
+*This command will remove the tag and the object.*
 
 ## Advanced commands
 > Commands here will not necessarily implemented for the sake of keeping simple or just techinal problem.
