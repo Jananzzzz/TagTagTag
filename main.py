@@ -75,7 +75,11 @@ while True:
     # remove a tag 
     elif re.search('^remove', instruction):
         tag = instruction[9:]
-        remove_json(tag)
+        if tag in data0:
+            remove_json(tag)
+        else:
+            print("Sorry, there is no such tag :(")
+            continue
         
 
     # add a tag
