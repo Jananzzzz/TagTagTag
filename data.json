@@ -11,5 +11,6 @@
     "make0": "12345",
     "make1": "43143",
     "make2": "1234",
-    "make3": "where there is a file, there is a way."
+    "make3": "where there is a file, there is a way.",
+    "make4": "this is make4\n      | this is make4\n      | this is make4"
 }
