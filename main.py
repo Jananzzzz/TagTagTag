@@ -2,7 +2,7 @@ import json
 import re
 
 # function to add to JSON
-def write_json(tag, content, filename='data.json'):
+def write_json(tag, content, filename='test_data.json'):
     with open(filename,'r+') as file:       # r+ : read and write the file
           # First we load existing data into a dict.
         file_data = json.load(file)
@@ -14,7 +14,7 @@ def write_json(tag, content, filename='data.json'):
         json.dump(file_data, file, indent = 4)
 
 # function to remove/ write to json
-def remove_json(tag, filename='data.json'):
+def remove_json(tag, filename='test_data.json'):
     with open(filename,'r+') as file:       # r+ : read and write the file
           # First we load existing data into a dict.
         file_data = json.load(file)
@@ -23,7 +23,7 @@ def remove_json(tag, filename='data.json'):
             if i == tag:
                 del file_data[i]
                 break
-        open('data.json', 'w').close()
+        open('test_data.json', 'w').close()
         # Sets file's current position at offset.
         file.seek(0)
         # convert back to json.
@@ -33,12 +33,12 @@ while True:
     instruction = input("TagTagTag: ")
 
     # open read mode for later use:
-    with open('data.json', 'r') as f0:
+    with open('test_data.json', 'r') as f0:
         data0 = json.load(f0)
     
     # simple tag search for objects
     if instruction in data0:
-        print(data0[instruction])
+        print(instruction, "|", data0[instruction])
         continue
 
     elif instruction == "help":
@@ -52,7 +52,7 @@ while True:
 
     # show all objects
     elif instruction == "all":
-        with open('data.json', 'r') as f:
+        with open('test_data.json', 'r') as f:
             data = json.load(f)
             for i in data:
                 print(i, "|", data[i])
@@ -94,7 +94,16 @@ while True:
                     if re.search(f"^{tag}.*", i):
                         print(i, "|", data0[i])
                 continue
-        content = input(f"input your content for tag '{tag}': ")
+        lines = []
+        print("input your content:")
+        while True:
+            line = input()
+            if line:
+                lines.append(line)
+            else:
+                break
+        space = " " * len(tag)
+        content = f'\n{space} | '.join(lines)
         write_json(tag, content)
 
 

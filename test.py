@@ -1,13 +1,22 @@
-import json
-
-with open('person.json', 'r+') as f:
-  data = json.load(f)
-
-data["newtag"] = "test"
-
-with open('person.json', 'w') as f:
-    json.dump(data, f, indent=4)
+from cgi import test
+from msvcrt import LK_LOCK, kbhit
 
 
-print(data)
-print(json.dumps(data, indent = 4, sort_keys=True))
+dict = {}
+dict["tag0"] = '''this is a tag.
+this is also tag in a different line.'''
+lines = []
+while True:
+  line = input()
+  if line:
+    lines.append(line)
+  else:
+    break
+text = '\n'.join(lines)
+print(text)
+
+dict["tag1"] = text
+for i in dict:
+  print(i, "|", dict[i])
+
+print(dict)
