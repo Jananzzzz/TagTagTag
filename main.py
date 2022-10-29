@@ -1,5 +1,6 @@
 import json
 import re
+from fuzzywuzzy import fuzz
 
 # function to add to JSON
 def write_json(tag, content, filename='data.json'):
@@ -62,7 +63,9 @@ while True:
         tag = instruction[:-5]
         count = 0
         for i in data0:
-            if re.search(f"^{tag}.*", i):
+            ratio = fuzz.partial_ratio(i, tag)
+            if ratio >= 70: 
+            # if re.search(f"^{tag}.*", i):
                 print(i, "|", data0[i])
                 count += 1
         if count == 0:
