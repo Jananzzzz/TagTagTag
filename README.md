@@ -52,5 +52,4 @@ $ mod tag "your object number"
 - An object will be deleted if and only if all of its tags have been removed
 
 ## More features
-- fuzzy matching
 - autocompletion 

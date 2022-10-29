@@ -45,7 +45,7 @@ while True:
     elif instruction == "help":
         print("help", "|", "show all the instructions")
         print("exit()", "|", "exit the program")
-        print("all", "|", "show all the tags and corresponding objects")
+        print("all", "|", "show all the results with a fuzzy search")
         print("tag -all", "|", "show all objects with in the same tag prefix")
         print("# tag", "|", "add a tag behind #")
         print("remove # tag", "|", "remove the tag behind #")
@@ -53,12 +53,14 @@ while True:
 
     # show all objects
     elif instruction == "all":
+        print('')
         with open('data.json', 'r') as f:
             data = json.load(f)
             for i in data:
-                print(i, "|", data[i])
+                print(i, "|", data[i], "\n")
+                
 
-    # show all results with prefix tag
+    # show all results with a fuzzy search 
     elif re.search("-all$", instruction):
         tag = instruction[:-5]
         count = 0
@@ -66,7 +68,7 @@ while True:
             ratio = fuzz.partial_ratio(i, tag)
             if ratio >= 70: 
             # if re.search(f"^{tag}.*", i):
-                print(i, "|", data0[i])
+                print(i, "|", data0[i], "\n")
                 count += 1
         if count == 0:
             print("there is no such tag :(")
