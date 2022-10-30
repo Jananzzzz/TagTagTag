@@ -38,7 +38,15 @@ $ remove # "your tag"
 ```
 *This command will remove the tag and the object.*
 
-## Advanced commands
+**Daily Task Part:**
+```
+$ task      # show all the tasks you add.
+$ addtask   # add a task
+$ rmtask 4  # remove the task with a sequence number of 4
+```
+
+
+## Advanced Commands
 > Commands here will not necessarily implemented for the sake of keeping simple or just techinal problem.
 
 **Modify object:**

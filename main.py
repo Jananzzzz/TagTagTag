@@ -1,9 +1,10 @@
+from asyncio import tasks
 import json
 import re
 from fuzzywuzzy import fuzz
 
 # function to add to JSON
-def write_json(tag, content, filename='data.json'):
+def write_json(tag, content, filename):
     with open(filename,'r+') as file:       # r+ : read and write the file
           # First we load existing data into a dict.
         file_data = json.load(file)
@@ -15,7 +16,7 @@ def write_json(tag, content, filename='data.json'):
         json.dump(file_data, file, indent = 4)
 
 # function to remove/ write to json
-def remove_json(tag, filename='data.json'):
+def remove_json(tag, filename):
     with open(filename,'r+') as file:       # r+ : read and write the file
           # First we load existing data into a dict.
         file_data = json.load(file)
@@ -24,7 +25,7 @@ def remove_json(tag, filename='data.json'):
             if i == tag:
                 del file_data[i]
                 break
-        open('data.json', 'w').close()
+        open(filename, 'w').close()
         # Sets file's current position at offset.
         file.seek(0)
         # convert back to json.
@@ -36,6 +37,8 @@ while True:
     # open read mode for later use:
     with open('data.json', 'r') as f0:
         data0 = json.load(f0)
+    with open('task.json', 'r') as f1:
+        data1 = json.load(f1)
     
     # simple tag search for objects
     if instruction in data0:
@@ -54,10 +57,8 @@ while True:
     # show all objects
     elif instruction == "all":
         print('')
-        with open('data.json', 'r') as f:
-            data = json.load(f)
-            for i in data:
-                print(i, "|", data[i], "\n")
+        for i in data0:
+            print(i, "|", data0[i], "\n")
                 
 
     # show all results with a fuzzy search 
@@ -81,10 +82,44 @@ while True:
     elif re.search('^remove', instruction):
         tag = instruction[9:]
         if tag in data0:
-            remove_json(tag)
+            remove_json(tag, 'data.json')
         else:
             print("Sorry, there is no such tag :(")
             continue
+        
+    elif instruction == "task":
+        count = 0
+        for i in data1:
+            print(i, "|", data1[i])
+            count += 1
+        if count == 0:
+            print("you are updated! :)")
+
+
+    elif re.search('^rmtask', instruction):
+        number = instruction[7:]
+        if number in data1:
+            remove_json(number, 'task.json')
+        else:
+            print("Sorry, there is no such number :(")
+            continue
+
+    elif instruction == "addtask":
+        dict_key = data1.keys()
+        key_list = list(dict_key)
+        last_number = int(key_list[-1])
+        number = last_number + 1
+        print("input your task:")
+        lines = []
+        while True:
+            line = input()
+            if line:
+                lines.append(line)
+            else:
+                break
+        space = " " * len(str(number))
+        content = f'\n{space} | '.join(lines)
+        write_json(str(number), content, 'task.json')
         
 
     # add a tag
@@ -109,7 +144,7 @@ while True:
                 break
         space = " " * len(tag)
         content = f'\n{space} | '.join(lines)
-        write_json(tag, content)
+        write_json(tag, content, 'data.json')
 
 
     elif instruction == "exit()":
