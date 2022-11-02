@@ -1,4 +1,3 @@
-from asyncio import tasks
 import json
 import re
 from fuzzywuzzy import fuzz
@@ -39,6 +38,8 @@ while True:
         data0 = json.load(f0)
     with open('task.json', 'r') as f1:
         data1 = json.load(f1)
+    with open('password.json', 'r') as f2:
+        data2 = json.load(f2)
     
     # simple tag search for objects
     if instruction in data0:
@@ -49,9 +50,22 @@ while True:
         print("help", "|", "show all the instructions")
         print("exit()", "|", "exit the program")
         print("all", "|", "show all the results with a fuzzy search")
-        print("tag -all", "|", "show all objects with in the same tag prefix")
+        print("<your tag>", "|", "show the corresponding content")
+        print(".<your tag>", "|", "show the most related results to <your tag>")
+        print("<your tag> -all", "|", "show all objects related to <your tag>")
         print("# tag", "|", "add a tag behind #")
-        print("remove # tag", "|", "remove the tag behind #")
+        print("remove # <your tag>", "|", "remove the tag behind #")
+        print("task", "|", "show all the tasks")
+        print("addtask", "|", "add a task")
+        print("rmtask k", "|", "remove the kth task")
+        print("pwd", "|", "show all password")
+        print("addpwd <your password tag>", "|", "add a password")
+        print("rmpwd tag", "|", "remove a password")
+        print("pwd <your password tag>", "|", "show the password of the tag")
+        print("pwd <your password tag> -all", "|", "show all the related password")
+        
+        
+        
 
 
     # show all objects
@@ -59,10 +73,36 @@ while True:
         print('')
         for i in data0:
             print(i, "|", data0[i], "\n")
+
+    # find the most suittable results
+    elif re.search("^\.", instruction):
+        tag = instruction[1:]
+        number = ''
+        result = ''
+        max = 0
+        for i in data0:
+            ratio = fuzz.partial_ratio(i, tag)
+            if ratio > max:
+                max = ratio
+                number = i
+                result = data0[i]
+            if ratio == max:
+                if len(number) < len(i):
+                    continue
+                else:
+                    max = ratio
+                    number = i
+                    result = data0[i]
+        if max > 40:
+            print(number, "|", result)
+        else:
+            print("there seems no related result :(")
+
+        
                 
 
     # show all results with a fuzzy search 
-    elif re.search("-all$", instruction):
+    elif re.search("-all$", instruction) and not re.search("^pwd.+-all$", instruction):
         tag = instruction[:-5]
         count = 0
         for i in data0:
@@ -73,10 +113,31 @@ while True:
                 count += 1
         if count == 0:
             print("there is no such tag :(")
+
+    # show all passwords with a fuzzy search
+    elif re.search("^pwd\s.+-all$", instruction):
+        tag = instruction[4:-6]
+        count = 0
+        for i in data2:
+            ratio = fuzz.partial_ratio(i, tag)
+            if ratio >= 70:
+                print(data2[i])
+                print('')
+                count += 1
+        if count == 0:
+            print("there is no such password :(")
+
     
     # show the objects under the tag.
     elif instruction in data0:
         print(data0[instruction])
+
+    elif re.search('^pwd\s', instruction):
+        tag = instruction[4:]
+        if tag in data2:
+            print(data2[tag])
+            continue
+        print("sorry, no such password :(")
 
     # remove a tag 
     elif re.search('^remove', instruction):
@@ -86,7 +147,8 @@ while True:
         else:
             print("Sorry, there is no such tag :(")
             continue
-        
+    
+    # show all the tasks
     elif instruction == "task":
         count = 0
         for i in data1:
@@ -94,6 +156,13 @@ while True:
             count += 1
         if count == 0:
             print("you are updated! :)")
+
+    # show all the passwords
+    elif instruction == "pwd":
+        for i in data2:
+            print(i)
+            print(data2[i])
+            print("")
 
 
     elif re.search('^rmtask', instruction):
@@ -104,10 +173,20 @@ while True:
             print("Sorry, there is no such number :(")
             continue
 
+    elif re.search('^rmpwd', instruction):
+        tag = instruction[6:]
+        if tag in data2:
+            remove_json(tag, 'password.json')
+        else:
+            print("sorry, there is no such password :(")
+
     elif instruction == "addtask":
         dict_key = data1.keys()
         key_list = list(dict_key)
-        last_number = int(key_list[-1])
+        if len(key_list) == 0:
+            last_number = 0
+        else:
+            last_number = int(key_list[-1])
         number = last_number + 1
         print("input your task:")
         lines = []
@@ -120,13 +199,36 @@ while True:
         space = " " * len(str(number))
         content = f'\n{space} | '.join(lines)
         write_json(str(number), content, 'task.json')
+
         
+    # add a password "addpwd <your password tag>"
+    elif re.search('^addpwd\s.+', instruction):
+        tag = instruction[7:]
+        if tag in data2:
+            print("This tag already exists, you can add a suffix to your tag :)")
+            ans = input(f"want to see all tags with a prefix '{tag}'? (y/n):")
+            if ans == 'n': continue
+            else:
+                for i in data2:
+                    if re.search(f"^{tag}.*", i):
+                        print(i, "|", data2[i])
+                continue
+        lines = [""] * 5 
+        lines[0] = "Username: " + input("Username: ")
+        lines[1] = "Password: " + input("Password: ")
+        lines[2] = "Email   : " + input("Email: ")
+        lines[3] = "Phone   : " + input("Phone: ")
+        lines[4] = "Others  : " + input("Others: ")
+        content = '\n'.join(lines)
+        write_json(tag, content, 'password.json')
+        
+
 
     # add a tag
     elif re.search('#\s.+', instruction):
         tag = instruction[2:]
         if tag in data0:
-            print("This tag is already exist, you can add a suffix to your tag :)")
+            print("This tag already exists, you can add a suffix to your tag :)")
             ans = input(f"want to see all tags with a prefix '{tag}'? (y/n):")
             if ans == 'n': continue
             else:
