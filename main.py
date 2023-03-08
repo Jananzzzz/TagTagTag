@@ -40,6 +40,8 @@ while True:
         data1 = json.load(f1)
     with open('password.json', 'r') as f2:
         data2 = json.load(f2)
+    with open('word.json', 'r') as f3:
+        data3 =json.load(f3)
     
     # simple tag search for objects
     if instruction in data0:
@@ -63,7 +65,24 @@ while True:
         print("rmpwd tag", "|", "remove a password")
         print("pwd <your password tag>", "|", "show the password of the tag")
         print("pwd <your password tag> -all", "|", "show all the related password")
-        
+        print("word", "|", "show all the record word")
+        print("addword" "|", "add a word in your knowledge base")
+        print("rmword <your word>" "|", "remove a word from your knowledge base")
+
+
+    # word part:
+    elif instruction == "word":
+        print("")
+        for i in data3:
+            print(i, data3[i])
+        print("")
+    elif instruction == "addword":
+        tag = input("input your word: ")
+        definition = input("input your definition: ")
+        write_json(tag, definition, "word.json")
+    elif re.search("^rmword", instruction): 
+        tag = instruction[7:]
+        remove_json(tag, "word.json")
         
         
 
