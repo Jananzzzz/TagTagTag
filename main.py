@@ -121,11 +121,14 @@ while True:
         for i in data2:
             ratio = fuzz.partial_ratio(i, tag)
             if ratio >= 70:
-                print(data2[i])
                 print('')
+                print(i)
+                print(data2[i])
                 count += 1
         if count == 0:
             print("there is no such password :(")
+        else:
+            print("")
 
     
     # show the objects under the tag.
@@ -135,6 +138,7 @@ while True:
     elif re.search('^pwd\s', instruction):
         tag = instruction[4:]
         if tag in data2:
+            print("")
             print(data2[tag])
             continue
         print("sorry, no such password :(")
@@ -160,10 +164,10 @@ while True:
     # show all the passwords
     elif instruction == "pwd":
         for i in data2:
+            print("")
             print(i)
             print(data2[i])
-            print("")
-
+        print("")
 
     elif re.search('^rmtask', instruction):
         number = instruction[7:]
