@@ -95,11 +95,11 @@ while True:
             print("")
     elif instruction == "writing":
         print("")
-        random_writing = random.randint(0, len(data4))
+        random_writing = random.randint(0, len(data4)-1)
         print(data4[str(random_writing)])
         print("")
-    elif instruction == "addwriting":
-        input("your content: \n")
+    # elif instruction == "addwriting":
+    #     input("your content: \n")
 
     
         
