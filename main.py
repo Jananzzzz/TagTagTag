@@ -1,3 +1,4 @@
+import random
 import json
 import re
 from fuzzywuzzy import fuzz
@@ -41,7 +42,9 @@ while True:
     with open('password.json', 'r') as f2:
         data2 = json.load(f2)
     with open('word.json', 'r') as f3:
-        data3 =json.load(f3)
+        data3 = json.load(f3)
+    with open('writing.json', 'r') as f4:
+        data4 = json.load(f4)
     
     # simple tag search for objects
     if instruction in data0:
@@ -83,7 +86,22 @@ while True:
     elif re.search("^rmword", instruction): 
         tag = instruction[7:]
         remove_json(tag, "word.json")
-        
+
+    # writings part:
+    elif instruction == "writing -all":
+        print("")
+        for i in data4:
+            print(data4[i])
+            print("")
+    elif instruction == "writing":
+        print("")
+        random_writing = random.randint(0, len(data4))
+        print(data4[str(random_writing)])
+        print("")
+    elif instruction == "addwriting":
+        input("your content: \n")
+
+    
         
 
 
