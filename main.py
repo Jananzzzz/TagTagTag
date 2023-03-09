@@ -13,7 +13,7 @@ def write_json(tag, content, filename):
         # Sets file's current position at offset.
         file.seek(0)
         # convert back to json.
-        json.dump(file_data, file, indent = 4)
+        json.dump(file_data, file, indent = 4, ensure_ascii=False)
 
 # function to remove/ write to json
 def remove_json(tag, filename):
@@ -98,8 +98,25 @@ while True:
         random_writing = random.randint(0, len(data4)-1)
         print(data4[str(random_writing)])
         print("")
-    # elif instruction == "addwriting":
-    #     input("your content: \n")
+    elif instruction == "addwriting":
+        dict_key = data4.keys()
+        key_list = list(dict_key)
+        if len(key_list) == 0:
+            last_number = 0
+        else:
+            last_number = int(key_list[-1])
+        number = last_number + 1
+        print("input your writings:")
+        lines = []
+        while True:
+            line = input()
+            if line:
+                lines.append(line)
+            else:
+                break
+        space = " " * len(str(number))
+        content = f'\n{space} | '.join(lines)
+        write_json(str(number), content, 'writing.json')
 
     
         
