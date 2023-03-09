@@ -71,6 +71,12 @@ while True:
         print("word", "|", "show all the record word")
         print("addword" "|", "add a word in your knowledge base")
         print("rmword <your word>" "|", "remove a word from your knowledge base")
+        print("writing -all", "|", "show all writings")
+        print("writing", "|", "random display a writing")
+        print("addwriting", "|", "add your writing")
+
+
+    
 
 
     # word part:
