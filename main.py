@@ -68,7 +68,8 @@ while True:
         print("rmpwd tag", "|", "remove a password")
         print("pwd <your password tag>", "|", "show the password of the tag")
         print("pwd <your password tag> -all", "|", "show all the related password")
-        print("word", "|", "show all the record word")
+        print("words", "|", "show all the record word")
+        print("word", "|", "display a random word")
         print("addword" "|", "add a word in your knowledge base")
         print("rmword <your word>" "|", "remove a word from your knowledge base")
         print("writing -all", "|", "show all writings")
@@ -76,11 +77,17 @@ while True:
         print("addwriting", "|", "add your writing")
 
 
-    
-
-
     # word part:
     elif instruction == "word":
+        print("")
+        word_list = []
+        for i in data3: 
+            word_list.append((i, data3[i])) 
+        random_word = random.randint(0, len(word_list)-1)
+        print(word_list[random_word][0], ":", word_list[random_word][1])
+        print("")
+
+    elif instruction == "words":
         print("")
         for i in data3:
             print(i, data3[i])
@@ -94,7 +101,7 @@ while True:
         remove_json(tag, "word.json")
 
     # writings part:
-    elif instruction == "writing -all":
+    elif instruction == "writings":
         print("")
         for i in data4:
             print(data4[i])
