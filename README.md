@@ -1,6 +1,6 @@
 # TagTagTag 
 ## Intro <br>
-**TagTagTag** is  a **Knowledge manage System**, which I want to create to facilitates my study and life. The system must have these properties: 
+**TagTagTag** is  a **Knowledge manage System**, which is created to facilitates my study and life. The system has these properties: 
 - Simple and easy to UI and operation 
 - Storage and Query
 - Efficient and Robust
