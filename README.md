@@ -1,6 +1,6 @@
 # TagTagTag 
 ## Intro <br>
-**TagTagTag** is  a **Knowledge manage System**, which is created to facilitates my study and life. The system has these properties: 
+**TagTagTag** is  a **knowledge manage tool**, which is created to facilitates my study and life. This tool has these properties: 
 - Simple and easy to UI and operation 
 - Storage and Query
 - Efficient and Robust
